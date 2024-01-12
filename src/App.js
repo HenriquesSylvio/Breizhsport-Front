@@ -1,45 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef } from "react";
+import { Route, Routes, useLocation } from 'react-router-dom';
+import ScrollReveal from './utils/ScrollReveal';
+import { ThemeProvider } from "@emotion/react";
+import { theme } from "./style/Theme";
 
-function App() {
+//Context
+import OrderState from "./context/order/OrderState";
+import UserState from "./context/user/UserState";
+import ProductState from "./context/product/ProductState";
+import CategoryState from "./context/category/CategoryState";
 
-  function chiffrer(message, clef) {
-    let newMessage = "";
-    for(let nbCaractere = 1; nbCaractere <= message.length; nbCaractere++){
-      let codeCaractereRemplacant = message.charCodeAt(nbCaractere) + clef;
-      let caractereRemplacant = String.fromCharCode(codeCaractereRemplacant)
-      newMessage.concat(caractereRemplacant);
-    }
+//squeletton layout
+import HomeSqueletton from "./component/layout/HomeSqueletton";
 
-    return newMessage;
-  }
+//Pages content
+import ItemListing from "./component/item/ItemListing";
+import ItemPage from "./component/item/ItemPage";
+import ItemListingAll from "./component/item/ItemListingAll";
+import Checkout from "./component/checkout/Checkout";
 
+const App = () => {
+  const childRef = useRef();
+  let location = useLocation();
 
-  let monMessageAChiffrer = "Hello";
-  let maClefDeChiffrage = 4;
-
-  console.log("bla", chiffrer(monMessageAChiffrer, maClefDeChiffrage));
-
-
+  useEffect(() => {
+    document.body.classList.add('is-loaded')
+    childRef.current.init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CategoryState>
+        <OrderState>
+          <ProductState>
+            <UserState>
+              <ScrollReveal
+                ref={childRef}
+                children={() => (
+                  <Routes>
+                    <Route path="/" element={<HomeSqueletton childrenElement={<ItemListingAll />} />} />
+                    <Route path="/category/:category_id" element={<HomeSqueletton childrenElement={<ItemListing />} />} />
+                    <Route path="/product/:product_id" element={<HomeSqueletton childrenElement={<ItemPage />} />} />
+                    <Route path="/checkout" element={<HomeSqueletton childrenElement={<Checkout />} />} />
+                  </Routes>
+                )} />
+            </UserState>
+          </ProductState>
+        </OrderState>
+      </CategoryState>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
