@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
 import Navbar from "../layout/Navbar";
-import DrawerMenu from "../layout/DrawerMenu";
-import Model from "../Model";
 
 import Cart from "../cart/Cart";
-import ItemListing from "../item/ItemListing";
-import ItemPage from "../item/ItemPage";
+
+import image from "./logo-breizhsports.png"
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { FirstProductImage } from "../FakeData";
 
@@ -32,18 +31,13 @@ const HomeSqueletton = ({childrenElement = null}) => {
                     onClick={() => setDraw(true)}
                 />
 
-                <img src="./images/logo.svg" alt="logo" className="logo" />
+                <img src={image} className="logo" height={150} />
 
                 <Navbar />
 
                 <div className="avater-cart">
                     <div className="avater-pos">
-                        <img
-                            src="./images/icon-cart.svg"
-                            onClick={Displaycart}
-                            alt="cart"
-                            className="cart"
-                        />
+                        <ShoppingCartIcon onClick={Displaycart} fontSize="large" style={{color:"#dea142", cursor: "pointer"}}/>
                         {count > 0 && <p className="alert-count">{count}</p>}
                     </div>
 

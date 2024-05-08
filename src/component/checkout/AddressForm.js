@@ -5,9 +5,45 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from 'react-i18next';
+import OrderContext from '../../context/order/OrderContext';
+import { useState } from 'react';
+import { Box, Button } from '@mui/material';
+import { useContext } from 'react';
 
-export default function AddressForm() {
+export default function AddressForm({ next = null, back = null }) {
     const { t } = useTranslation();
+
+    const orderContext = useContext(OrderContext);
+    const { setCurrentOrderAddress } = orderContext;
+
+    const emptyForm = {
+        firstname: "",
+        lastname: "",
+        address1: "",
+        address2: "",
+        city: "",
+        department: "",
+        zipcode: "",
+        country: "",
+    }
+
+    const [formAddress, setFormAddress] = useState(emptyForm)
+
+    const onChange = (event) => {
+        console.log(event)
+        //setFormAddress(...formAddress, [event])
+    }
+
+    const {
+        firstname,
+        lastname,
+        address1,
+        address2,
+        city,
+        department,
+        zipcode,
+        country
+    } = formAddress
 
     return (
         <React.Fragment>
@@ -21,9 +57,8 @@ export default function AddressForm() {
                         id="firstName"
                         name="firstName"
                         label={t('checkout.firstName')}
-                        fullWidth
-                        autoComplete="given-name"
-                        variant="standard"
+                        value={firstname}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -35,6 +70,8 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="family-name"
                         variant="standard"
+                        value={lastname}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -46,6 +83,8 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="shipping address-line1"
                         variant="standard"
+                        value={address1}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -56,6 +95,8 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="shipping address-line2"
                         variant="standard"
+                        value={address2}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -67,26 +108,32 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="shipping address-level2"
                         variant="standard"
+                        value={city}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
-                        id="state"
-                        name="state"
+                        id="department"
+                        name="department"
                         label={t('checkout.region')}
                         fullWidth
                         variant="standard"
+                        value={department}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="zip"
-                        name="zip"
+                        id="zipcode"
+                        name="zipcode"
                         label={t('checkout.zipCode')}
                         fullWidth
                         autoComplete="shipping postal-code"
                         variant="standard"
+                        value={zipcode}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -98,6 +145,8 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="shipping country"
                         variant="standard"
+                        value={country}
+                        onChange={onChange()}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -107,6 +156,22 @@ export default function AddressForm() {
                     />
                 </Grid>
             </Grid>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+                <Button onClick={back} sx={{ mt: 3, ml: 1 }}>
+                    {t('generic.back')}
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        setCurrentOrderAddress(formAddress)
+                        next()
+                        }}
+                    sx={{ mt: 3, ml: 1 }}
+                >
+                    {t('generic.next')}
+                </Button>
+            </Box>
         </React.Fragment>
     );
 }

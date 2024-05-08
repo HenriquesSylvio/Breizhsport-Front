@@ -1,4 +1,7 @@
-export const API_URL = "https://graph.facebook.com"
+export const API_URL =
+  process.env.REACT_APP_ENV === "staging" || process.env.REACT_APP_ENV === "dev"
+    ? "http://localhost:8080/api/v1"
+    : "http://localhost:8080/api/v1";
 
 export const ADMIN_KEY =
   process.env.REACT_APP_ENV === "staging" || process.env.REACT_APP_ENV === "dev"
@@ -77,6 +80,8 @@ export const GET_ORDERS_BY_USER_ID = "GET_ORDERS_BY_USER_ID";
 export const GET_ORDER_BY_ID = "GET_ORDER_BY_ID";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const MODIFY_CART = "MODIFY_CART";
+export const SET_CURRENT_ORDER_ADDRESS = "SET_CURRENT_ORDER_ADDRESS";
+export const SET_CURRENT_ORDER_PAYMENT = "SET_CURRENT_ORDER_PAYMENT";
 export const CLEAR_ORDERS = "CLEAR_ALL_ORDERS";
 export const CLEAR_CURRENT_ORDER = "CLEAR_CURRENT_ORDER";
 export const CLEAR_ALL_STATE_ORDER = "CLEAR_ALL_STATE_ORDER";

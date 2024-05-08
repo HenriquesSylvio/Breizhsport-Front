@@ -15,23 +15,34 @@ import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { useTranslation } from 'react-i18next';
+import CartDetail from './CartDetail';
+import OrderContext from '../../context/order/OrderContext';
+import { useContext } from 'react';
 
 
-function getStepContent(step) {
+
+
+export default function Checkout() {
+    const [activeStep, setActiveStep] = React.useState(0);
+
+    const orderContext = useContext(OrderContext);
+  const { cart } = orderContext;
+  
+
+  function getStepContent(step) {
     switch (step) {
         case 0:
-            return <Review />;
+            return <CartDetail next={handleNext}/>;
         case 1:
-            return <AddressForm />;
+            return <AddressForm next={handleNext} back={handleBack}/>;
         case 2:
-            return <PaymentForm />;
+            return <PaymentForm next={handleNext} back={handleBack} />;
+        case 3:
+            return <Review back={handleBack} />;
         default:
             throw new Error('Unknown step');
     }
 }
-
-export default function Checkout() {
-    const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -43,7 +54,7 @@ export default function Checkout() {
 
     const { t } = useTranslation();
 
-    const steps = [t('checkout.cartDetail'), t('checkout.shippingAddress'), t('checkout.paymentDetails')];
+    const steps = [t('checkout.cartDetail'), t('checkout.shippingAddress'), t('checkout.paymentDetails'), t('checkout.orderConfirmation')];
 
     return (
         <React.Fragment>
@@ -70,22 +81,7 @@ export default function Checkout() {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            {getStepContent(activeStep)}
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                {activeStep !== 0 && (
-                                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                        {t('generic.back')}
-                                    </Button>
-                                )}
-
-                                <Button
-                                    variant="contained"
-                                    onClick={handleNext}
-                                    sx={{ mt: 3, ml: 1 }}
-                                >
-                                    {activeStep === steps.length - 1 ? t('checkout.confirmOrder') : t('generic.next')}
-                                </Button>
-                            </Box>
+                            {getStepContent(activeStep)}                           
                         </React.Fragment>
                     )}
                 </Paper>

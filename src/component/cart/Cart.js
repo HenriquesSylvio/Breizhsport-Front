@@ -23,14 +23,12 @@ const Cart = ({ bgimage, count }) => {
       <div>
         {cart.length > 0 ? (
           <div className="ctcheck">
-            {cart.map((cartItem) => {
+            {cart.map((cartItem, id) => {
               return (
                 <>
-                  <div className="ctinfo-flex">
-                    {bgimage.map(({ image, id }) => (
-                      <img src={image} key={id} alt="bg-img" />
-                    ))}
-                    <div>
+                  <div key={id} className="ctinfo-flex">
+                      <img src={require(`../../images/${cartItem.product.image}`)} key={id} alt="bg-img" />
+                    <div key={id} >
                       <p>{cartItem.product.title}</p>
                       <p>
                         {`${cartItem.product.price}€ x ${cartItem.quantity}   `}<span>{cartItem.product.price * cartItem.quantity}</span> €

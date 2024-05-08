@@ -12,6 +12,8 @@ const ItemCard = ({ item }) => {
 
     const navigate = useNavigate();
 
+    const image = `../../images/${item.image}`
+
     return (
         <>
             <Grid item key={item.id} xs={12} sm={6} md={4}>
@@ -28,7 +30,7 @@ const ItemCard = ({ item }) => {
                             // 16:9
                             pt: "56.25%",
                         }}
-                        image="https://source.unsplash.com/random?wallpapers"
+                        image={image}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                         <Typography gutterBottom variant="h5" component="h2">

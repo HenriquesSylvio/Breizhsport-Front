@@ -24,6 +24,7 @@ i18n
           checkoutTitle: "Panier",
           shippingAddress: "Adresse de livraison",
           paymentDetails: "Paiement",
+          orderConfirmation: "Récaptulatif de commande",
           cartDetail: "Détail du panier",
           paymentMethod: "Méthode de paiement",
           firstName: "Nom",

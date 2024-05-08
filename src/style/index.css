@@ -43,7 +43,7 @@ main {
   cursor: pointer;
 }
 .avater-cart .avatar:hover {
-  border: 1px solid hsl(26deg, 100%, 55%);
+  border: 1px solid #dea142;
   border-radius: 50%;
 }
 
@@ -52,12 +52,9 @@ main {
 }
 
 header {
-  margin-top: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1.5em;
-  margin-bottom: 2em;
   border-bottom: 1px solid hsl(220deg, 14%, 75%);
 }
 header img {
@@ -110,8 +107,8 @@ nav ul {
 
 .flexHero {
   display: flex;
-  justify-content: space-between;
-  gap: 2em;
+  justify-content: space-evenly;
+  gap: 1em;
   flex-direction: column;
 }
 @media (min-width: 650px) {
@@ -157,7 +154,7 @@ img {
 }
 .smallImg:active {
   opacity: 0.5;
-  outline: 5px solid hsl(26deg, 100%, 55%);
+  outline: 5px solid #dea142;
 }
 
 .Mbig-img {
@@ -196,7 +193,7 @@ img {
 }
 
 .info h4 {
-  color: hsl(26deg, 100%, 55%);
+  color: #dea142;
   margin-bottom: 0.5em;
   text-transform: uppercase;
 }
@@ -215,7 +212,7 @@ img {
   gap: 10px;
 }
 .info span {
-  color: hsl(26deg, 100%, 55%);
+  color: #dea142;
   background-color: hsl(27deg, 82%, 96%);
   padding: 0.2em;
   font-size: 0.7em;
@@ -252,7 +249,7 @@ img {
   text-decoration: line-through;
 }
 .info .btn-add {
-  color: hsl(26deg, 100%, 55%);
+  color: #dea142;
   font-size: 1.2rem;
   margin-inline: 20px;
   cursor: pointer;
@@ -284,7 +281,7 @@ button {
   gap: 12px;
   padding: 0.8em;
   border: unset;
-  background-color: hsl(26deg, 100%, 55%);
+  background-color: #dea142;
   color: white;
   border-radius: 10px;
   box-shadow: 0px 6px 5px 2px hsl(27deg, 82%, 96%);
@@ -316,7 +313,7 @@ button:hover {
 @media (min-width: 650px) {
   .cart-card {
     right: unset;
-    top: 70px;
+    top: 100px;
     width: 350px;
     box-shadow: 0px 6px 5px 2px rgba(0, 0, 0, 0.2);
   }
@@ -361,7 +358,7 @@ button:hover {
   top: -9px;
   right: 5px;
   color: white;
-  background-color: hsl(26deg, 100%, 55%);
+  background-color: #dea142;
   border-radius: 20%;
   padding: 0 1px;
 }
@@ -380,7 +377,7 @@ nav li:hover::after {
   height: 3px;
   bottom: -36px;
   left: 0;
-  background-color: hsl(26deg, 100%, 55%);
+  background-color: #dea142;
 }
 
 /*# sourceMappingURL=index.css.map */

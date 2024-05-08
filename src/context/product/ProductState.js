@@ -35,7 +35,7 @@ const ProductState = (props) => {
         try {
             await axios
                 .get(
-                    `${API_URL}/METTRE_URLBACK`,
+                    `${API_URL}/product`,
                     CONFIG_API_URL
                 )
                 .then(
@@ -66,7 +66,7 @@ const ProductState = (props) => {
         try {
             await axios
                 .get(
-                    `${API_URL}/METTRE_URLBACK_ET_PARAMS`,
+                    `${API_URL}/product/${id}`,
                     CONFIG_API_URL
                 )
                 .then(

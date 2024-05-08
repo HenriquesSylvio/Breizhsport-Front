@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ItemPhotoGallery from "./ItemPhotoGallery";
 import ItemInfos from "./ItemInfos";
 import { FirstProductImage } from "../FakeData";
 
@@ -16,13 +15,7 @@ const ItemPage = () => {
 
   return (
     <section className="flexHero">
-      <ItemPhotoGallery
-        bgimage={bgimage}
-        handleOpen={handleOpen}
-        setBgimage={(word) => setBgimage(word)}
-      />
       <ItemInfos
-        Displaycart={Displaycart}
       />
     </section>
   );

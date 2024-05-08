@@ -15,7 +15,9 @@ import {
     CLEAR_CURRENT_ORDER,
     CLEAR_ALL_STATE_ORDER,
     ADD_TO_CART,
-    MODIFY_CART
+    MODIFY_CART,
+    SET_CURRENT_ORDER_ADDRESS,
+    SET_CURRENT_ORDER_PAYMENT
 } from "../types";
 
 const OrderState = (props) => {
@@ -23,8 +25,27 @@ const OrderState = (props) => {
     // initial state
     const initialState = {
         orders: null,
-        current_order: null,
+        current_order: {
+            current_order_address: {
+                firstname: "",
+                lastname: "",
+                address1: "",
+                address2: "",
+                city: "",
+                department: "",
+                zipcode: "",
+                country: "",                
+            },
+            current_order_payment: {
+                cardTitulaire: "",
+                cardNumber: "",
+                cardDate: "",
+                cardPincode: ""
+            },
+            current_order_items: []
+        },
         cart: [],
+        total_order: 0,
     };
 
     const [state, dispatch] = useReducer(OrderReducer, initialState);
@@ -37,7 +58,7 @@ const OrderState = (props) => {
         try {
             await axios
                 .get(
-                    `${API_URL}/METTRE_URLBACK`,
+                    `${API_URL}/orders`,
                     CONFIG_API_URL
                 )
                 .then(
@@ -99,7 +120,7 @@ const OrderState = (props) => {
         try {
             await axios
                 .get(
-                    `${API_URL}/METTRE_URLBACK_ET_PARAMS`,
+                    `${API_URL}/orders/${id}`,
                     CONFIG_API_URL
                 )
                 .then(
@@ -125,18 +146,52 @@ const OrderState = (props) => {
 
     // add a product to cart
     const addToCart = (product) => {
-        
+        console.log(product);
         dispatch({
             type: ADD_TO_CART,
             payload: product
         });
     };
 
-     // modify or delete a product in cart
-     const modifyCart = (product_id, quantity) => {
+    // modify or delete a product in cart
+    const modifyCart = (product_id, quantity) => {
+        let difference = 0
+        let newTotal = 0
+        if (quantity === 0) {
+            let actualObject = state.cart.filter((item) => item?.product?.id === product_id)
+            difference = actualObject[0].product.price * actualObject[0].quantity
+        } else {
+            let actualObject = state.cart.filter((item) => item?.product?.id === product_id)
+            let numberToAdd = quantity - actualObject[0]?.quantity
+            difference = actualObject[0]?.product?.price * numberToAdd
+            newTotal = state.total_order + (difference)
+        }
+        let indexToReplace = state.cart.findIndex((item) => item?.product?.id === product_id)
+        let actualObject = state.cart.filter((item) => item?.product?.id === product_id)
+        if (actualObject[0]) {
+            actualObject[0].quantity = quantity
+        }
+        let newCart = state.cart.splice(indexToReplace, 1, actualObject)
         dispatch({
             type: MODIFY_CART,
-            payload: { id: product_id, qty: quantity }
+            payload: { id: product_id, qty: quantity, newCart: newCart, total: newTotal }
+        });
+    };
+
+
+    // setCurrentOrderAddress
+    const setCurrentOrderAddress = (address) => {
+        dispatch({
+            type: SET_CURRENT_ORDER_ADDRESS,
+            payload: address
+        });
+    };
+
+    // setCurrentOrderPayment
+    const setCurrentOrderPayment = (payment) => {
+        dispatch({
+            type: SET_CURRENT_ORDER_PAYMENT,
+            payload: payment
         });
     };
 
@@ -167,11 +222,14 @@ const OrderState = (props) => {
                 orders: state.orders,
                 current_order: state.current_order,
                 cart: state.cart,
+                total_order: state.total_order,
                 getAllOrders,
                 getOrdersByUserId,
                 getOrderById,
                 addToCart,
                 modifyCart,
+                setCurrentOrderAddress,
+                setCurrentOrderPayment,
                 clearOrders,
                 clearCurrentOrder,
                 clearAllStateOrder,
