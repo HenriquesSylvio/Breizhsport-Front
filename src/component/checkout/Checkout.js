@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import CartDetail from './CartDetail';
 import OrderContext from '../../context/order/OrderContext';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Checkout() {
@@ -21,6 +22,7 @@ export default function Checkout() {
     const orderContext = useContext(OrderContext);
     const { last_order_number } = orderContext;
 
+    const navigate = useNavigate();
 
     function getStepContent(step) {
         switch (step) {
@@ -46,7 +48,7 @@ export default function Checkout() {
     };
 
     const goHome = () => {
-
+        navigate("/")
     }
 
     const { t } = useTranslation();

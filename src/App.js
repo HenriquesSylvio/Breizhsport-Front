@@ -18,6 +18,7 @@ import ItemListing from "./component/item/ItemListing";
 import ItemPage from "./component/item/ItemPage";
 import ItemListingAll from "./component/item/ItemListingAll";
 import Checkout from "./component/checkout/Checkout";
+import FollowOrder from "./component/checkout/FollowOrder";
 
 const App = () => {
   const childRef = useRef();
@@ -43,6 +44,7 @@ const App = () => {
                     <Route path="/category/:category_id" element={<HomeSqueletton childrenElement={<ItemListing />} />} />
                     <Route path="/product/:product_id" element={<HomeSqueletton childrenElement={<ItemPage />} />} />
                     <Route path="/checkout" element={<HomeSqueletton childrenElement={<Checkout />} />} />
+                    <Route path="/follow-order" element={<HomeSqueletton childrenElement={<FollowOrder/>} />} />
                   </Routes>
                 )} />
             </UserState>

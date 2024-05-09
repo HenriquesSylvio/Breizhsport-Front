@@ -56,6 +56,20 @@ i18n
         },
         navbar: {
           seeAll: "Voir tout",
+          followOrder: "Suivre ma commande",
+        },
+        followOrder: {
+          titleFollowOrder: "Suivi de commande",
+          followOrderNumber: "Numéro de commande",
+          searchOrder: "Rechercher la commande",
+          badOrderNumber: "Aucune commande trouvée. Vérifiez votre numéro de commande et réessayez.",
+          backToResearchButton: "Retour à la recherche",
+          researchAnotherOrder: "Rechercher une autre commande",
+          preparationOnGoing: "En cours de préparation",
+          sent: "Expédié",
+          deliverOnGoing: "En cours de livraison",
+          delivered: "Livré"
+
         }
       }
     },

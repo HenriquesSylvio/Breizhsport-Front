@@ -67,6 +67,7 @@ const ItemInfos = () => {
             key={image}
             src={image}
             style={{maxWidth: 400}}
+            alt={current_product.title}
           />
           <article className="info">
             <Typography variant="h4">
@@ -91,13 +92,13 @@ const ItemInfos = () => {
                   value={selectedSize}
                   label="Taille"
                   onChange={handleChange}
-                >{current_product.availableSizes !== undefined && current_product.availableSizes.map((size) =>
-                  <MenuItem value={size}>{size}</MenuItem>
+                >{current_product.availableSizes !== undefined && current_product.availableSizes.map((size,id) =>
+                  <MenuItem id={id} value={size}>{size}</MenuItem>
                 )}
                 </Select>
               </FormControl>
               <div>
-                <IconButton aria-label="countDecrease" onClick={countDecrease} disabled={isInCart && count === 0 || !isInCart && count === 1}>
+                <IconButton aria-label="countDecrease" onClick={countDecrease} disabled={(isInCart && count === 0) || (!isInCart && count === 1)}>
                   <RemoveRounded />
                 </IconButton>
                 {` ${count} `}

@@ -9,7 +9,6 @@ import OrderContext from '../../context/order/OrderContext';
 import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { useContext } from 'react';
-import { useRef } from 'react';
 
 export default function AddressForm({ next = null, back = null }) {
     const { t } = useTranslation();
@@ -93,6 +92,19 @@ export default function AddressForm({ next = null, back = null }) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
+                        id="zipcode"
+                        name="zipcode"
+                        label={t('checkout.zipCode')}
+                        fullWidth
+                        autoComplete="shipping postal-code"
+                        variant="standard"
+                        value={zipcode}
+                        onChange={onChange}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        required
                         id="city"
                         name="city"
                         label={t('checkout.city')}
@@ -111,19 +123,6 @@ export default function AddressForm({ next = null, back = null }) {
                         fullWidth
                         variant="standard"
                         value={department}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="zipcode"
-                        name="zipcode"
-                        label={t('checkout.zipCode')}
-                        fullWidth
-                        autoComplete="shipping postal-code"
-                        variant="standard"
-                        value={zipcode}
                         onChange={onChange}
                     />
                 </Grid>

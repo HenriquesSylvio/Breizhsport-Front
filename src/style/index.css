@@ -212,11 +212,10 @@ img {
   gap: 10px;
 }
 .info span {
-  color: #dea142;
-  background-color: hsl(27deg, 82%, 96%);
   padding: 0.2em;
   font-size: 0.7em;
 }
+
 .info .Add,
 .info .price {
   display: flex;
@@ -224,7 +223,7 @@ img {
   align-items: center;
 }
 .info .Add {
-  background-color: hsl(223deg, 64%, 98%);
+  /* background-color: hsl(223deg, 64%, 98%); */
   padding: 0.8em;
   border-radius: 10px;
 }
