@@ -43,6 +43,7 @@ i18n
           payment: "Paiement",
           confirmOrder: "Valider la commande",
           thanksForOrder: "Merci pour votre commande",
+          goBackHome: "Retourner à la page d'accueil",
           orderNumber: "Votre numéro de commande est le ",
           resumeByEmail: "Vous recevrez prochainement un email de confirmation.",
           confirmedOrder: "Commande validée",

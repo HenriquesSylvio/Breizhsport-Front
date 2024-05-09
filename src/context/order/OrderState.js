@@ -17,14 +17,17 @@ import {
     ADD_TO_CART,
     MODIFY_CART,
     SET_CURRENT_ORDER_ADDRESS,
-    SET_CURRENT_ORDER_PAYMENT
+    SET_CURRENT_ORDER_PAYMENT,
+    SET_CURRENT_ORDER_ITEMS,
+    SAVE_ORDER,
+    CLEAR_CART
 } from "../types";
 
 const OrderState = (props) => {
 
     // initial state
     const initialState = {
-        orders: null,
+        orders: [],
         current_order: {
             current_order_address: {
                 firstname: "",
@@ -42,8 +45,10 @@ const OrderState = (props) => {
                 cardDate: "",
                 cardPincode: ""
             },
-            current_order_items: []
+            current_order_items: [],
+            current_order_number: ""
         },
+        last_order_number: "",
         cart: [],
         total_order: 0,
     };
@@ -178,6 +183,54 @@ const OrderState = (props) => {
         });
     };
 
+    function strRandom(o) {
+        var a = 10,
+            b = 'abcdefghijklmnopqrstuvwxyz',
+            c = '',
+            d = 0,
+            e = ''+b;
+        if (o) {
+          if (o.startsWithLowerCase) {
+            c = b[Math.floor(Math.random() * b.length)];
+            d = 1;
+          }
+          if (o.length) {
+            a = o.length;
+          }
+          if (o.includeUpperCase) {
+            e += b.toUpperCase();
+          }
+          if (o.includeNumbers) {
+            e += '1234567890';
+          }
+        }
+        for (; d < a; d++) {
+          c += e[Math.floor(Math.random() * e.length)];
+        }
+        return c;
+      }
+
+    // saveOrder
+    const saveOrder = () => {
+        var options = {
+            includeUpperCase: true,
+            includeNumbers: true,
+            length: 8,
+            startsWithLowerCase: true
+          };
+          
+        let orderToSave = state.current_order
+        let orderNumber = strRandom(options);
+        orderToSave.current_order_number = orderNumber;
+        let actualOrders = [state.orders, orderToSave]
+        actualOrders = actualOrders.flat()
+        clearCurrentOrder()
+        clearCart()
+        dispatch({
+            type: SAVE_ORDER,
+            payload: {actualOrders : actualOrders, orderNumber: orderNumber}
+        });
+    };
 
     // setCurrentOrderAddress
     const setCurrentOrderAddress = (address) => {
@@ -195,10 +248,25 @@ const OrderState = (props) => {
         });
     };
 
+     // setCurrentOrderItems
+     const setCurrentOrderItems = (cart) => {
+        dispatch({
+            type: SET_CURRENT_ORDER_ITEMS,
+            payload: cart
+        });
+    };
+
     // clear orders
     const clearOrders = () => {
         dispatch({
             type: CLEAR_ORDERS,
+        });
+    };
+
+    // clear cart
+    const clearCart = () => {
+        dispatch({
+            type: CLEAR_CART,
         });
     };
 
@@ -223,14 +291,18 @@ const OrderState = (props) => {
                 current_order: state.current_order,
                 cart: state.cart,
                 total_order: state.total_order,
+                last_order_number: state.last_order_number,
                 getAllOrders,
                 getOrdersByUserId,
                 getOrderById,
                 addToCart,
                 modifyCart,
+                saveOrder,
                 setCurrentOrderAddress,
                 setCurrentOrderPayment,
+                setCurrentOrderItems,
                 clearOrders,
+                clearCart,
                 clearCurrentOrder,
                 clearAllStateOrder,
             }}>

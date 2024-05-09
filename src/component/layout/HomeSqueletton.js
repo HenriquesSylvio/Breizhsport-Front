@@ -40,12 +40,6 @@ const HomeSqueletton = ({childrenElement = null}) => {
                         <ShoppingCartIcon onClick={Displaycart} fontSize="large" style={{color:"#dea142", cursor: "pointer"}}/>
                         {count > 0 && <p className="alert-count">{count}</p>}
                     </div>
-
-                    <img
-                        src="./images/image-avatar.png"
-                        alt="avatar"
-                        className="avatar"
-                    />
                     {cart && <Cart bgimage={bgimage} count={count} />}
                 </div>
             </header>

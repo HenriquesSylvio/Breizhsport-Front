@@ -1,15 +1,10 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
@@ -20,29 +15,27 @@ import OrderContext from '../../context/order/OrderContext';
 import { useContext } from 'react';
 
 
-
-
 export default function Checkout() {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const orderContext = useContext(OrderContext);
-  const { cart } = orderContext;
-  
+    const { last_order_number } = orderContext;
 
-  function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <CartDetail next={handleNext}/>;
-        case 1:
-            return <AddressForm next={handleNext} back={handleBack}/>;
-        case 2:
-            return <PaymentForm next={handleNext} back={handleBack} />;
-        case 3:
-            return <Review back={handleBack} />;
-        default:
-            throw new Error('Unknown step');
+
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <CartDetail next={handleNext} />;
+            case 1:
+                return <AddressForm next={handleNext} back={handleBack} />;
+            case 2:
+                return <PaymentForm next={handleNext} back={handleBack} />;
+            case 3:
+                return <Review back={handleBack} next={handleNext} />;
+            default:
+                throw new Error('Unknown step');
+        }
     }
-}
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -51,6 +44,10 @@ export default function Checkout() {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+
+    const goHome = () => {
+
+    }
 
     const { t } = useTranslation();
 
@@ -76,12 +73,15 @@ export default function Checkout() {
                                 {t('checkout.confirmedOrder')}
                             </Typography>
                             <Typography variant="subtitle1">
-                                {t('checkout.orderNumber')} #2001539. {t('checkout.resumeByEmail')}
+                                {t('checkout.orderNumber')} {last_order_number? last_order_number : ""}. {t('checkout.resumeByEmail')}
                             </Typography>
+                            <Button onClick={goHome()} sx={{ mt: 3, ml: 1 }}>
+                                {t('checkout.goBackHome')}
+                            </Button>
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            {getStepContent(activeStep)}                           
+                            {getStepContent(activeStep)}
                         </React.Fragment>
                     )}
                 </Paper>
