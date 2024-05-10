@@ -50,7 +50,7 @@ export default function FollowOrderReview({ back = null, orderNumber = null }) {
                     src={require(`../../images/${item.product.image}`)}
                     key={id}
                     style={{ maxWidth: 150 }}
-                    alt="article image"
+                    alt={`produit${id}`}
                   />
                   <ListItemText
                     primary={item.product.title}

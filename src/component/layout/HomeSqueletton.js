@@ -12,10 +12,7 @@ import { useTranslation } from "react-i18next";
 
 const HomeSqueletton = ({ childrenElement = null }) => {
   const { t } = useTranslation();
-
   const [cart, setCart] = useState(false);
-  const [count, setCount] = useState(0);
-  const [draw, setDraw] = useState(false);
   const Displaycart = () => {
     setCart((prev) => !prev);
   };
@@ -28,13 +25,13 @@ const HomeSqueletton = ({ childrenElement = null }) => {
         <img
           src="./images/icon-menu.svg"
           className="hamburger"
-          alt=""
-          onClick={() => setDraw(true)}
+          alt="hamburger"
         />
 
         <img
           src={image}
           className="logo"
+          alt={`logo breizhsports`}
           height={150}
           onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
@@ -52,7 +49,6 @@ const HomeSqueletton = ({ childrenElement = null }) => {
               fontSize="large"
               style={{ color: "#dea142", cursor: "pointer" }}
             />
-            {count > 0 && <p className="alert-count">{count}</p>}
           </div>
           {cart && <Cart/>}
         </div>

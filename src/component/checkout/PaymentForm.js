@@ -7,7 +7,6 @@ import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import { useContext } from "react";
 import OrderContext from "../../context/order/OrderContext";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function PaymentForm({ next = null, back = null }) {
   const { t } = useTranslation();

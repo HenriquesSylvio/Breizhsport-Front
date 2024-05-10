@@ -155,7 +155,7 @@ const OrderState = (props) => {
       difference = actualObject[0].product.price * actualObject[0].quantity;
 
       newCart = state.cart.filter(
-        (item) => !(item?.product?.id === product_id && item?.size == size)
+        (item) => !(item?.product?.id === product_id && item?.size === size)
       );
 
       newTotal = state.total_order - difference;
@@ -175,7 +175,7 @@ const OrderState = (props) => {
       }
 
       newCart = state.cart.filter(
-        (item) => !(item?.product?.id === product_id && item?.size == size)
+        (item) => !(item?.product?.id === product_id && item?.size === size)
       );
 
       newCart.push(actualObject[0]);
@@ -232,24 +232,24 @@ const OrderState = (props) => {
     orderToSave.current_order_total = state.total_order;
     orderToSave.current_order_items = state.cart;
 
-    // if (orderToSave && orderToSave.current_order_address?.email) {
-    //     emailjs
-    //       .send(
-    //         "service_t2nmpil",
-    //         "template_vtnta51",
-    //         {
-    //           message: orderNumber,
-    //           reply_to: orderToSave.current_order_address.email,
-    //           user_email: orderToSave.current_order_address.email,
-    //         },
-    //         process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-    //       )
-    //       .then(
-    //         (error) => {
-    //    console.log(error)
-    //         }
-    //       );
-    // }
+    if (orderToSave && orderToSave.current_order_address?.email) {
+        emailjs
+          .send(
+            "service_t2nmpil",
+            "template_vtnta51",
+            {
+              message: orderNumber,
+              reply_to: orderToSave.current_order_address.email,
+              user_email: orderToSave.current_order_address.email,
+            },
+            process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+          )
+          .then(
+            (error) => {
+       console.log(error)
+            }
+          );
+    }
     let actualOrders = [state.orders, orderToSave];
     actualOrders = actualOrders.flat();
     clearCurrentOrder();
