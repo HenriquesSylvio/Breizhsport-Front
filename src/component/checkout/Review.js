@@ -20,7 +20,7 @@ export default function Review({ back = null, next = null }) {
             </Typography>
             <List disablePadding>
                 {cart.map((item, id) => (
-                    <ListItem key={item.product.title} sx={{ py: 1, px: 0 }}>
+                    <ListItem key={id} sx={{ py: 1, px: 0 }}>
                         <img src={require(`../../images/${item.product.image}`)} key={id} style={{ maxWidth: 150 }} />
                         <ListItemText primary={item.product.title} secondary={`Taille : ${item.size}`} style={{ marginLeft: 20 }} />
                         <Typography variant="body2">{item.quantity}x{item.product.price}€</Typography>

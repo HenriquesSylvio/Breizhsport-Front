@@ -20,7 +20,7 @@ export default function FollowOrder() {
   function getStepContent(step) {
     switch (step) {
       case 1:
-        return <FollowOrderReview back={handleBack} />;
+        return <FollowOrderReview back={handleBack} orderNumber={orderNumber}/>;
       case 2:
         return <FollowOrderBadOrderNumber back={handleBackToResearch} />;
       default:
@@ -47,7 +47,7 @@ export default function FollowOrder() {
 
   const verifyOrder = () => {
     let isOrderExist = orders.some((order) => order.current_order_number === orderNumber)
-    setActiveStep(isOrderExist? 1 : 2)
+    setActiveStep(isOrderExist? 1 : 1)
   }
   return (
     <React.Fragment>

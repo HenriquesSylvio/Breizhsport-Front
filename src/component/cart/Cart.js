@@ -1,16 +1,15 @@
 import React, { useContext, useState } from "react";
 
 //context
-import OrderContext from '../../context/order/OrderContext';
+import OrderContext from "../../context/order/OrderContext";
 
 //translation
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-const Cart = ({ bgimage, count }) => {
-
+const Cart = () => {
   const orderContext = useContext(OrderContext);
-  const { cart } = orderContext;
+  const { cart, total_order } = orderContext;
 
   const navigate = useNavigate();
 
@@ -27,20 +26,24 @@ const Cart = ({ bgimage, count }) => {
               return (
                 <>
                   <div key={id} className="ctinfo-flex">
-                      <img src={require(`../../images/${cartItem.product.image}`)} key={id} alt="bg-img" />
-                    <div key={id} >
+                    <img
+                      src={require(`../../images/${cartItem.product.image}`)}
+                      key={id}
+                      alt="bg-img"
+                    />
+                    <div>
                       <p>{cartItem.product.title}</p>
-                      <p>
-                        {`${cartItem.product.price}€ x ${cartItem.quantity}   `}<span>{cartItem.product.price * cartItem.quantity}</span> €
-                      </p>
+                      <p>Taille : {cartItem.size}</p>
+                      <p>{`Quantité : ${cartItem.quantity} `}</p>
                     </div>
                   </div>
                 </>
               );
             })}
-            <button
-              onClick={() => navigate(`/checkout`)}
-            >
+            <p style={{ fontWeight: "bold", marginBottom: 10 }}>
+              {`Total : ${total_order} € `}
+            </p>
+            <button onClick={() => navigate(`/checkout`)}>
               {t("cart.goCheckout")}
             </button>
           </div>

@@ -77,7 +77,7 @@ export default function Checkout() {
                             <Typography variant="subtitle1">
                                 {t('checkout.orderNumber')} {last_order_number? last_order_number : ""}. {t('checkout.resumeByEmail')}
                             </Typography>
-                            <Button onClick={goHome()} sx={{ mt: 3, ml: 1 }}>
+                            <Button onClick={goHome} sx={{ mt: 3, ml: 1 }}>
                                 {t('checkout.goBackHome')}
                             </Button>
                         </React.Fragment>

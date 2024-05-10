@@ -6,8 +6,6 @@ import Cart from "../cart/Cart";
 
 import image from "./logo-breizhsports.png";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
-import { FirstProductImage } from "../FakeData";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -16,9 +14,7 @@ const HomeSqueletton = ({ childrenElement = null }) => {
   const { t } = useTranslation();
 
   const [cart, setCart] = useState(false);
-  const [bgimage, setBgimage] = useState(FirstProductImage);
   const [count, setCount] = useState(0);
-  const [open, setOpen] = useState(false);
   const [draw, setDraw] = useState(false);
   const Displaycart = () => {
     setCart((prev) => !prev);
@@ -58,7 +54,7 @@ const HomeSqueletton = ({ childrenElement = null }) => {
             />
             {count > 0 && <p className="alert-count">{count}</p>}
           </div>
-          {cart && <Cart bgimage={bgimage} count={count} />}
+          {cart && <Cart/>}
         </div>
       </header>
       <div className="Main-hero">

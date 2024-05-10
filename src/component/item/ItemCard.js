@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 
 //MUI
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -11,15 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 
-//translation
-import { useTranslation } from "react-i18next";
-
 const ItemCard = ({ item }) => {
-  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
-  const image = `../../images/${item.image}`;
+  const image = item.image && item.image !== undefined ? require(`../../images/${item.image}`) : null;
 
   return (
     <>

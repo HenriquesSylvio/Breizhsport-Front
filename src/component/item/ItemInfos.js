@@ -93,7 +93,7 @@ const ItemInfos = () => {
                   label="Taille"
                   onChange={handleChange}
                 >{current_product.availableSizes !== undefined && current_product.availableSizes.map((size,id) =>
-                  <MenuItem id={id} value={size}>{size}</MenuItem>
+                  <MenuItem key={id} value={size}>{size}</MenuItem>
                 )}
                 </Select>
               </FormControl>

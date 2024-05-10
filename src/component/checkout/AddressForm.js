@@ -20,6 +20,7 @@ export default function AddressForm({ next = null, back = null }) {
     const {
         firstname,
         lastname,
+        email,
         address1,
         address2,
         city,
@@ -27,6 +28,8 @@ export default function AddressForm({ next = null, back = null }) {
         zipcode,
         country
     } = form
+
+    const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/);
 
     const onChange = (e) => {
         e.preventDefault();
@@ -44,6 +47,7 @@ export default function AddressForm({ next = null, back = null }) {
                     <TextField
                         label={t('checkout.firstName')}
                         autoComplete="firstname"
+                        type="text"
                         variant="standard"
                         name="firstname"
                         value={firstname}
@@ -55,6 +59,7 @@ export default function AddressForm({ next = null, back = null }) {
                     <TextField
                         required
                         id="lastname"
+                        type='text'
                         name="lastname"
                         label={t('checkout.lastName')}
                         fullWidth
@@ -66,9 +71,24 @@ export default function AddressForm({ next = null, back = null }) {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
+                        label={t('checkout.email')}
+                        autoComplete="email"
+                        variant="standard"
+                        type='email'
+                        name="email"
+                        fullWidth
+                        value={email}
+                        required
+                        onChange={onChange}
+                        error={(email.length > 0 && emailRegex.test(email) === true) || email.length === 0 ? false : true}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
                         required
                         id="address1"
                         name="address1"
+                        type='text'
                         label={t('checkout.address')}
                         fullWidth
                         autoComplete="address1"
@@ -81,6 +101,7 @@ export default function AddressForm({ next = null, back = null }) {
                     <TextField
                         id="address2"
                         name="address2"
+                        type='text'
                         label={t('checkout.address')}
                         fullWidth
                         autoComplete="address2"
@@ -93,6 +114,7 @@ export default function AddressForm({ next = null, back = null }) {
                     <TextField
                         required
                         id="zipcode"
+                        type='text'
                         name="zipcode"
                         label={t('checkout.zipCode')}
                         fullWidth
@@ -107,6 +129,7 @@ export default function AddressForm({ next = null, back = null }) {
                         required
                         id="city"
                         name="city"
+                        type='text'
                         label={t('checkout.city')}
                         fullWidth
                         autoComplete="city"
@@ -119,6 +142,7 @@ export default function AddressForm({ next = null, back = null }) {
                     <TextField
                         id="department"
                         name="department"
+                        type='text'
                         label={t('checkout.region')}
                         fullWidth
                         variant="standard"
@@ -131,18 +155,13 @@ export default function AddressForm({ next = null, back = null }) {
                         required
                         id="country"
                         name="country"
+                        type='text'
                         label={t('checkout.country')}
                         fullWidth
                         autoComplete="shipping country"
                         variant="standard"
                         value={country}
                         onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                        label={t('checkout.useAddressForPayment')}
                     />
                 </Grid>
             </Grid>
@@ -153,6 +172,7 @@ export default function AddressForm({ next = null, back = null }) {
                 </Button>
                 <Button
                     variant="contained"
+                    disabled={!firstname || !lastname || !email || !address1 || !zipcode || !city || !country}
                     onClick={() => {
                         setCurrentOrderAddress(form)
                         next()

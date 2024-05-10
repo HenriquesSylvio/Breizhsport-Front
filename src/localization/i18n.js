@@ -29,6 +29,7 @@ i18n
           paymentMethod: "Méthode de paiement",
           firstName: "Nom",
           lastName: "Prénom",
+          email: "Email",
           address: "Adresse",
           city: "Ville",
           region: "Département / Région",
@@ -68,7 +69,8 @@ i18n
           preparationOnGoing: "En cours de préparation",
           sent: "Expédié",
           deliverOnGoing: "En cours de livraison",
-          delivered: "Livré"
+          delivered: "Livré",
+          orderDetail: "Détail de la commande"
 
         }
       }
