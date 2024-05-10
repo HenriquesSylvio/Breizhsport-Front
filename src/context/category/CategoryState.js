@@ -1,6 +1,5 @@
 import React, { useReducer } from 'react';
 import axios from "axios";
-import setAuthToken from "../../utils/setAuthToken";
 import CategoryContext from './CategoryContext';
 import CategoryReducer from './CategoryReducer';
 
@@ -35,7 +34,7 @@ const CategoryState = (props) => {
     try {
       await axios
         .get(
-          `${API_URL}/METTRE_URLBACK`,
+          `${API_URL}/category`,
           CONFIG_API_URL
         )
         .then(
@@ -66,7 +65,7 @@ const CategoryState = (props) => {
     try {
       await axios
         .get(
-          `${API_URL}/METTRE_URLBACK_ET_PARAMS`,
+          `${API_URL}/category/${id}`,
           CONFIG_API_URL
         )
         .then(
