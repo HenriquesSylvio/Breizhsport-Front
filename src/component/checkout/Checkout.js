@@ -1,37 +1,43 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { useTranslation } from 'react-i18next';
+import CartDetail from './CartDetail';
+import OrderContext from '../../context/order/OrderContext';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <Review />;
-        case 1:
-            return <AddressForm />;
-        case 2:
-            return <PaymentForm />;
-        default:
-            throw new Error('Unknown step');
-    }
-}
 
 export default function Checkout() {
     const [activeStep, setActiveStep] = React.useState(0);
+
+    const orderContext = useContext(OrderContext);
+    const { last_order_number } = orderContext;
+
+    const navigate = useNavigate();
+
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <CartDetail next={handleNext} />;
+            case 1:
+                return <AddressForm next={handleNext} back={handleBack} />;
+            case 2:
+                return <PaymentForm next={handleNext} back={handleBack} />;
+            case 3:
+                return <Review back={handleBack} next={handleNext} />;
+            default:
+                throw new Error('Unknown step');
+        }
+    }
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -41,9 +47,13 @@ export default function Checkout() {
         setActiveStep(activeStep - 1);
     };
 
+    const goHome = () => {
+        navigate("/")
+    }
+
     const { t } = useTranslation();
 
-    const steps = [t('checkout.cartDetail'), t('checkout.shippingAddress'), t('checkout.paymentDetails')];
+    const steps = [t('checkout.cartDetail'), t('checkout.shippingAddress'), t('checkout.paymentDetails'), t('checkout.orderConfirmation')];
 
     return (
         <React.Fragment>
@@ -65,27 +75,15 @@ export default function Checkout() {
                                 {t('checkout.confirmedOrder')}
                             </Typography>
                             <Typography variant="subtitle1">
-                                {t('checkout.orderNumber')} #2001539. {t('checkout.resumeByEmail')}
+                                {t('checkout.orderNumber')} {last_order_number? last_order_number : ""}. {t('checkout.resumeByEmail')}
                             </Typography>
+                            <Button onClick={goHome} sx={{ mt: 3, ml: 1 }}>
+                                {t('checkout.goBackHome')}
+                            </Button>
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
                             {getStepContent(activeStep)}
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                {activeStep !== 0 && (
-                                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                        {t('generic.back')}
-                                    </Button>
-                                )}
-
-                                <Button
-                                    variant="contained"
-                                    onClick={handleNext}
-                                    sx={{ mt: 3, ml: 1 }}
-                                >
-                                    {activeStep === steps.length - 1 ? t('checkout.confirmOrder') : t('generic.next')}
-                                </Button>
-                            </Box>
                         </React.Fragment>
                     )}
                 </Paper>

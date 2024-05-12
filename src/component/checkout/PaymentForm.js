@@ -1,61 +1,106 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { useTranslation } from 'react-i18next';
+import * as React from "react";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import { useTranslation } from "react-i18next";
+import { Box, Button } from "@mui/material";
+import { useState } from "react";
+import { useContext } from "react";
+import OrderContext from "../../context/order/OrderContext";
 
-export default function PaymentForm() {
-    const { t } = useTranslation();
+export default function PaymentForm({ next = null, back = null }) {
+  const { t } = useTranslation();
 
-    return (
-        <React.Fragment>
-            <Typography variant="h6" gutterBottom>
-                {t('checkout.paymentMethod')}
-            </Typography>
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        id="cardName"
-                        label={t('checkout.nameOnCard')}
-                        fullWidth
-                        autoComplete="cc-name"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        id="cardNumber"
-                        label={t('checkout.cardNumber')}
-                        fullWidth
-                        autoComplete="cc-number"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        id="expDate"
-                        label={t('checkout.expiryDate')}
-                        fullWidth
-                        autoComplete="cc-exp"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        id="cvv"
-                        label={t('checkout.CVV')}
-                        fullWidth
-                        autoComplete="cc-csc"
-                        variant="standard"
-                    />
-                </Grid>
-            </Grid>
-        </React.Fragment>
-    );
+  const orderContext = useContext(OrderContext);
+  const { setCurrentOrderPayment, current_order } = orderContext;
+
+  const [form, setForm] = useState(
+    current_order && current_order.current_order_payment
+  );
+  const { cardDate, cardNumber, cardPincode, cardTitulaire } = form;
+
+  const onChange = (e) => {
+    e.preventDefault();
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <>
+      <Typography variant="h6" gutterBottom>
+        {t("checkout.paymentMethod")}
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <TextField
+            label={t("checkout.nameOnCard")}
+            autoComplete="cardTitulaire"
+            variant="standard"
+            name="cardTitulaire"
+            value={cardTitulaire}
+            required
+            onChange={onChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardNumber"
+            label={t("checkout.cardNumber")}
+            fullWidth
+            autoComplete="cardNumber"
+            name="cardNumber"
+            variant="standard"
+            value={cardNumber}
+            onChange={onChange}
+            error={cardNumber.length > 0 && cardNumber.length !== 16}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardDate"
+            label={t("checkout.expiryDate")}
+            type="month"
+            fullWidth
+            autoComplete="cardDate"
+            name="cardDate"
+            variant="standard"
+            value={cardDate}
+            onChange={onChange}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardPincode"
+            label={t("checkout.CVV")}
+            fullWidth
+            autoComplete="cardPincode"
+            name="cardPincode"
+            variant="standard"
+            value={cardPincode}
+            onChange={onChange}
+            error={cardPincode.length > 0 && cardPincode.length !== 3}
+          />
+        </Grid>
+      </Grid>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button onClick={back} sx={{ mt: 3, ml: 1 }}>
+          {t("generic.back")}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setCurrentOrderPayment(form);
+            next();
+          }}
+          sx={{ mt: 3, ml: 1 }}
+          disabled={!cardTitulaire || !cardNumber || !cardDate || !cardPincode}
+        >
+          {t("generic.next")}
+        </Button>
+      </Box>
+    </>
+  );
 }
