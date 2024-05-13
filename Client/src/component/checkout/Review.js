@@ -8,12 +8,43 @@ import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import OrderContext from "../../context/order/OrderContext";
 import { Box, Button } from "@mui/material";
+import { loadStripe } from '@stripe/stripe-js'
+import axios from 'axios'
 
 export default function Review({ back = null, next = null }) {
   const { t } = useTranslation();
   const orderContext = useContext(OrderContext);
   const { cart, total_order, current_order, setCurrentOrderItems, saveOrder } =
     orderContext;
+
+    //Stripe paiement Add
+   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
+   const handleCheckout = async() => {
+
+    
+       const lineItems =  cart.map((item) =>{
+           return {
+               price_data : {
+                   currency : 'eur',
+                   product_data : {
+                       name : item.product.title
+                   },
+                   unit_amount: item.product.price*100
+               },
+               quantity: item.quantity
+           }
+
+       })
+       const{data} = await axios.post('http://localhost:4242/create-checkout-session',  {
+        header: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;application/json'},lineItems,
+        mode: "cors"
+      })
+
+       const stripe = await stripePromise
+
+       await stripe.redirectToCheckout({sessionId: data.id})
+
+   }
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -74,48 +105,6 @@ export default function Review({ back = null, next = null }) {
               </>
             )}
         </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            {t("checkout.payment")}
-          </Typography>
-          <Grid container>
-            <React.Fragment>
-              <Grid item xs={6}>
-                <Typography gutterBottom>{t("checkout.nameOnCard")}</Typography>
-              </Grid>
-              {current_order &&
-                current_order.current_order_address !== undefined && (
-                  <>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>
-                        {current_order.current_order_payment.cardTitulaire}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>
-                        {t("checkout.cardNumber")}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>
-                        {current_order.current_order_payment.cardNumber}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>
-                        {t("checkout.expiryDate")}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom>
-                        {current_order.current_order_payment.cardDate}
-                      </Typography>
-                    </Grid>
-                  </>
-                )}
-            </React.Fragment>
-          </Grid>
-        </Grid>
       </Grid>
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button onClick={back} sx={{ mt: 3, ml: 1 }}>
@@ -124,9 +113,8 @@ export default function Review({ back = null, next = null }) {
         <Button
           variant="contained"
           onClick={() => {
-            setCurrentOrderItems(cart);
-            saveOrder(current_order);
-            next();
+            localStorage.setItem("current_order", JSON.stringify(current_order))
+            handleCheckout()
           }}
           sx={{ mt: 3, ml: 1 }}
         >

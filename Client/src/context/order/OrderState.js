@@ -27,7 +27,7 @@ const OrderState = (props) => {
   // initial state
   const initialState = {
     orders: localStorage.getItem("orders") ?  JSON.parse(localStorage.getItem("orders")) : [],
-    current_order: {
+    current_order: localStorage.getItem("current_order") ?  JSON.parse(localStorage.getItem("current_order")) : {
       current_order_address: {
         firstname: "",
         lastname: "",
@@ -235,7 +235,7 @@ const OrderState = (props) => {
       startsWithLowerCase: true,
     };
 
-    let orderToSave = state.current_order;
+    let orderToSave = localStorage.getItem("current_order") ?  JSON.parse(localStorage.getItem("current_order")) : null;
     let orderNumber = strRandom(options);
     orderToSave.current_order_number = orderNumber;
     orderToSave.current_order_total = state.total_order;
@@ -265,6 +265,7 @@ const OrderState = (props) => {
     clearCart();
     localStorage.setItem("orders", JSON.stringify(actualOrders))
     localStorage.setItem("last_order_number", JSON.stringify(orderNumber))
+    localStorage.removeItem("current_order")
 
     dispatch({
       type: SAVE_ORDER,
