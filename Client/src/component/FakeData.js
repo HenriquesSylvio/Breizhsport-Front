@@ -79,11 +79,11 @@ export const Items = [
 
   {
     id: 7,
-    title: "Lot de 5 chasubles",
+    title: "Lot de 4 chasubles",
     description: "Equipez vos équipes avec ces chasubles colorées",
     price: 50,
     availableSizes: ["TU"],
-    image: "",
+    image: "chasubles.png",
   },
 
   {
@@ -92,6 +92,7 @@ export const Items = [
     description: "En coton bio de Bretagne",
     price: 50,
     availableSizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    image: "kimono.png"
   },
 
   {
@@ -318,11 +319,11 @@ export const Categories = [
       },
       {
         id: 7,
-        title: "Lot de 5 chasubles",
+        title: "Lot de 4 chasubles",
         description: "Equipez vos équipes avec ces chasubles colorées",
         price: 50,
         availableSizes: ["TU"],
-        image: "",
+        image: "chasubles.png",
       },
     ],
   },
@@ -338,6 +339,7 @@ export const Categories = [
         description: "En coton bio de Bretagne",
         price: 50,
         availableSizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        image:"kimono.png"
       },
     ],
   },

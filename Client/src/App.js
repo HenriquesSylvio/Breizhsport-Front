@@ -43,7 +43,7 @@ const App = () => {
                     <Route path="/" element={<HomeSqueletton childrenElement={<ItemListingAll />} />} />
                     <Route path="/category/:category_id" element={<HomeSqueletton childrenElement={<ItemListing />} />} />
                     <Route path="/product/:product_id" element={<HomeSqueletton childrenElement={<ItemPage />} />} />
-                    <Route path="/checkout" element={<HomeSqueletton childrenElement={<Checkout />} />} />
+                    <Route path="/checkout/:step" element={<HomeSqueletton childrenElement={<Checkout />} />} />
                     <Route path="/follow-order" element={<HomeSqueletton childrenElement={<FollowOrder/>} />} />
                   </Routes>
                 )} />

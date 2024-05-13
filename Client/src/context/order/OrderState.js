@@ -26,8 +26,8 @@ import {
 const OrderState = (props) => {
   // initial state
   const initialState = {
-    orders: [],
-    current_order: {
+    orders: localStorage.getItem("orders") ?  JSON.parse(localStorage.getItem("orders")) : [],
+    current_order: localStorage.getItem("current_order") ?  JSON.parse(localStorage.getItem("current_order")) : {
       current_order_address: {
         firstname: "",
         lastname: "",
@@ -48,9 +48,9 @@ const OrderState = (props) => {
       current_order_items: [],
       current_order_number: "",
     },
-    last_order_number: "",
-    cart: [],
-    total_order: 0,
+    last_order_number: localStorage.getItem("last_order_number") ?  JSON.parse(localStorage.getItem("last_order_number")) : "",
+    cart: localStorage.getItem("cart") ?  JSON.parse(localStorage.getItem("cart")) : [],
+    total_order: localStorage.getItem("total_order") ?  JSON.parse(localStorage.getItem("total_order")) : 0,
   };
 
   const [state, dispatch] = useReducer(OrderReducer, initialState);
@@ -135,6 +135,14 @@ const OrderState = (props) => {
 
   // add a product to cart
   const addToCart = (product) => {
+    let newTotal = state.total_order +
+    product.product.price * product.quantity;
+    let newCart = state.cart && state.cart !== undefined
+    ? [state.cart, product].flat()
+    : [product]
+
+    localStorage.setItem("cart", JSON.stringify(newCart))
+    localStorage.setItem("total_order", JSON.stringify(newTotal))
     dispatch({
       type: ADD_TO_CART,
       payload: product,
@@ -180,7 +188,8 @@ const OrderState = (props) => {
 
       newCart.push(actualObject[0]);
     }
-
+    localStorage.setItem("cart", JSON.stringify(newCart))
+    localStorage.setItem("total_order", JSON.stringify(newTotal))
     dispatch({
       type: MODIFY_CART,
       payload: {
@@ -226,7 +235,7 @@ const OrderState = (props) => {
       startsWithLowerCase: true,
     };
 
-    let orderToSave = state.current_order;
+    let orderToSave = localStorage.getItem("current_order") ?  JSON.parse(localStorage.getItem("current_order")) : null;
     let orderNumber = strRandom(options);
     orderToSave.current_order_number = orderNumber;
     orderToSave.current_order_total = state.total_order;
@@ -254,6 +263,10 @@ const OrderState = (props) => {
     actualOrders = actualOrders.flat();
     clearCurrentOrder();
     clearCart();
+    localStorage.setItem("orders", JSON.stringify(actualOrders))
+    localStorage.setItem("last_order_number", JSON.stringify(orderNumber))
+    localStorage.removeItem("current_order")
+
     dispatch({
       type: SAVE_ORDER,
       payload: { actualOrders: actualOrders, orderNumber: orderNumber },
@@ -262,6 +275,7 @@ const OrderState = (props) => {
 
   // setCurrentOrderAddress
   const setCurrentOrderAddress = (address) => {
+
     dispatch({
       type: SET_CURRENT_ORDER_ADDRESS,
       payload: address,
@@ -286,6 +300,8 @@ const OrderState = (props) => {
 
   // clear orders
   const clearOrders = () => {
+    localStorage.removeItem('orders');
+
     dispatch({
       type: CLEAR_ORDERS,
     });
@@ -293,6 +309,9 @@ const OrderState = (props) => {
 
   // clear cart
   const clearCart = () => {
+    localStorage.removeItem('cart');
+    localStorage.removeItem('total_order');
+
     dispatch({
       type: CLEAR_CART,
     });

@@ -7,23 +7,31 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { useTranslation } from 'react-i18next';
 import CartDetail from './CartDetail';
 import OrderContext from '../../context/order/OrderContext';
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 export default function Checkout() {
-    const [activeStep, setActiveStep] = React.useState(0);
+    let { step } = useParams()
+    const [activeStep, setActiveStep] = React.useState(step && step !== undefined ? Number(step) : 0);
 
     const orderContext = useContext(OrderContext);
-    const { last_order_number } = orderContext;
+    const { last_order_number, setCurrentOrderItems, saveOrder, current_order, cart } = orderContext;
 
     const navigate = useNavigate();
 
+
+    React.useEffect(() => {
+      if(activeStep === 3){
+        setCurrentOrderItems(cart);
+        saveOrder(current_order);
+      }
+    }, [activeStep])
+    
     function getStepContent(step) {
         switch (step) {
             case 0:
@@ -31,8 +39,6 @@ export default function Checkout() {
             case 1:
                 return <AddressForm next={handleNext} back={handleBack} />;
             case 2:
-                return <PaymentForm next={handleNext} back={handleBack} />;
-            case 3:
                 return <Review back={handleBack} next={handleNext} />;
             default:
                 throw new Error('Unknown step');
@@ -46,6 +52,10 @@ export default function Checkout() {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+    const retry = () => {
+        navigate("/checkout/0")
+        setActiveStep(0);
+    };
 
     const goHome = () => {
         navigate("/")
@@ -53,7 +63,7 @@ export default function Checkout() {
 
     const { t } = useTranslation();
 
-    const steps = [t('checkout.cartDetail'), t('checkout.shippingAddress'), t('checkout.paymentDetails'), t('checkout.orderConfirmation')];
+    const steps = [t('checkout.cartDetail'), t('checkout.shippingAddress'), t('checkout.orderConfirmation')];
 
     return (
         <React.Fragment>
@@ -77,6 +87,21 @@ export default function Checkout() {
                             <Typography variant="subtitle1">
                                 {t('checkout.orderNumber')} {last_order_number? last_order_number : ""}. {t('checkout.resumeByEmail')}
                             </Typography>
+                            <Button onClick={goHome} sx={{ mt: 3, ml: 1 }}>
+                                {t('checkout.goBackHome')}
+                            </Button>
+                        </React.Fragment>
+                    ) : activeStep === steps.length+1 ?(
+                        <React.Fragment>
+                            <Typography variant="h5" gutterBottom>
+                                {t('checkout.failOrder')}
+                            </Typography>
+                            <Typography variant="subtitle1">
+                                {t('checkout.failOrderText')}
+                            </Typography>
+                            <Button onClick={retry} sx={{ mt: 3, ml: 1 }}>
+                                {t('checkout.retry')}
+                            </Button>
                             <Button onClick={goHome} sx={{ mt: 3, ml: 1 }}>
                                 {t('checkout.goBackHome')}
                             </Button>

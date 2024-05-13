@@ -43,7 +43,7 @@ const Cart = () => {
             <p style={{ fontWeight: "bold", marginBottom: 10 }}>
               {`Total : ${total_order} € `}
             </p>
-            <button onClick={() => navigate(`/checkout`)}>
+            <button onClick={() => navigate(`/checkout/0`)}>
               {t("cart.goCheckout")}
             </button>
           </div>
