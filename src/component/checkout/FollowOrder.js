@@ -47,7 +47,7 @@ export default function FollowOrder() {
 
   const verifyOrder = () => {
     let isOrderExist = orders.some((order) => order.current_order_number === orderNumber)
-    setActiveStep(isOrderExist? 1 : 1)
+    setActiveStep(isOrderExist? 1 : 2)
   }
   return (
     <React.Fragment>
