@@ -9,8 +9,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));
 
-//const YOUR_DOMAIN ="https://breizhsport-front.vercel.app";
-const YOUR_DOMAIN ="http://localhost:3000";
+const YOUR_DOMAIN ="https://breizhsport-front.vercel.app";
+//const YOUR_DOMAIN ="http://localhost:3000";
 app.post('/create-checkout-session', async(req, res) =>{
   try {
     const session = await stripe.checkout.sessions.create({
