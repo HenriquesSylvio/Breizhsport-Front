@@ -35,7 +35,7 @@ export default function Review({ back = null, next = null }) {
            }
 
        })
-       const{data} = await axios.post('https://breizhsport-front.vercel.app:4242/create-checkout-session',  {
+       const{data} = await axios.post(`http://localhost:${process.env.PORT || 4242}/create-checkout-session`,  {
         header: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;application/json'},lineItems,
         mode: "cors"
       })

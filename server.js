@@ -48,4 +48,4 @@ app.post('/create-checkout-session', async(req, res) =>{
   }*/
 })
 
-app.listen(4242, () => console.log('server is running successfully on port 4242'))
+app.listen(process.env.PORT || 4242, () => console.log('server is running successfully on port 4242'))
