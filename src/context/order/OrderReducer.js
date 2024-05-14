@@ -50,6 +50,7 @@ export default (state, action) => {
         total_order: action.payload.total,
       };
     case SAVE_ORDER:
+      localStorage.removeItem("current_order")
       return {
         ...state,
         orders: action.payload.actualOrders,

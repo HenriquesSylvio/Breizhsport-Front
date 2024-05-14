@@ -7,7 +7,10 @@ const app = express();
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'));
 
+//const YOUR_DOMAIN ="https://breizhsport-front.vercel.app";
+const YOUR_DOMAIN ="http://localhost:3000";
 app.post('/create-checkout-session', async(req, res) =>{
   try {
     const session = await stripe.checkout.sessions.create({
@@ -15,11 +18,11 @@ app.post('/create-checkout-session', async(req, res) =>{
       line_items: req.body.lineItems,
       mode: 'payment',
       payment_method_types: ['card'],
-      success_url: 'http://localhost:3000/checkout/3',
-      cancel_url: 'http://localhost:3000/checkout/4'
+      success_url: `${YOUR_DOMAIN}/checkout/3`,
+      cancel_url: `${YOUR_DOMAIN}/checkout/4`
     })
     return res.status(201).json(session)
-    
+    //res.redirect(303, session.url);
   } catch( error) {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -45,4 +48,4 @@ app.post('/create-checkout-session', async(req, res) =>{
   }*/
 })
 
-app.listen(process.env.PORT, () => console.log('server is running successfully'))
+app.listen(4242, () => console.log('server is running successfully on port 4242'))

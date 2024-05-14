@@ -22,11 +22,6 @@ const HomeSqueletton = ({ childrenElement = null }) => {
   return (
     <>
       <header>
-        <img
-          src="./images/icon-menu.svg"
-          className="hamburger"
-          alt="hamburger"
-        />
 
         <img
           src={image}

@@ -265,7 +265,6 @@ const OrderState = (props) => {
     clearCart();
     localStorage.setItem("orders", JSON.stringify(actualOrders))
     localStorage.setItem("last_order_number", JSON.stringify(orderNumber))
-    localStorage.removeItem("current_order")
 
     dispatch({
       type: SAVE_ORDER,
@@ -275,7 +274,6 @@ const OrderState = (props) => {
 
   // setCurrentOrderAddress
   const setCurrentOrderAddress = (address) => {
-
     dispatch({
       type: SET_CURRENT_ORDER_ADDRESS,
       payload: address,
