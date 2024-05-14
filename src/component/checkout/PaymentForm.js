@@ -47,7 +47,7 @@ export default function PaymentForm({ next = null, back = null }) {
            }
 
        })
-       const{data} = await axios.post('http://localhost:4242/create-checkout-session',  {
+       const{data} = await axios.post('https://breizhsport-front.vercel.app:4242/create-checkout-session',  {
         header: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;application/json'},lineItems,
         mode: "cors"
       })
